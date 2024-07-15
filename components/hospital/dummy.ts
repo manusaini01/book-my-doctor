@@ -10,7 +10,7 @@ export interface SelectHospital {
   }
   
   // Dummy data
-  export const dummyHospitals: SelectHospital[] = [
+   const dummyHospitals: SelectHospital[] = [
     {
       id: 1,
       name: "Life Care Dental and Implant Centre",
@@ -103,3 +103,5 @@ export interface SelectHospital {
     },
   ];
   
+
+  export default dummyHospitals
