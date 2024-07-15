@@ -11,10 +11,22 @@ import {
 import { MoreHorizontal } from 'lucide-react';
 import { TableCell, TableRow } from '@/components/ui/table';
 
-const MyHospital = ({ hospital }) => {
+interface Props {
+  hospital: {
+    id: number;
+  name: string;
+  type: string;
+  dentists: number;
+  experience: string;
+  location: string;
+  consultationFee: string;
+  };
+}
 
-  function deleteHospital(){
-    return;
+const MyHospital = ({ hospital }: Props) => {
+  
+  function deleteHospital() {
+    // Implement delete functionality here
   }
 
   return (
@@ -39,10 +51,12 @@ const MyHospital = ({ hospital }) => {
       <TableCell className="font-medium">{hospital.name}</TableCell>
       <TableCell>
         <Badge variant="outline" className="capitalize">
-          {hospital.ad ? 'AD' : 'Non-AD'}
+          { 'Non-AD'}
+          {/* {hospital.ad ? 'AD' : 'Non-AD'} */}
         </Badge>
       </TableCell>
-      <TableCell className="hidden md:table-cell">{hospital.dentistsCount} Dentist{hospital.dentistsCount > 1 ? 's' : ''}</TableCell>
+      <TableCell className="hidden md:table-cell">{2} Dentist{2 > 1 ? 's' : ''}</TableCell>
+      {/* <TableCell className="hidden md:table-cell">{hospital.dentistsCount} Dentist{hospital.dentistsCount > 1 ? 's' : ''}</TableCell> */}
       <TableCell className="hidden md:table-cell">{hospital.experience}</TableCell>
       <TableCell className="hidden md:table-cell">{hospital.location}</TableCell>
       <TableCell className="hidden md:table-cell">{`₹${hospital.consultationFee} Consultation Fees`}</TableCell>
@@ -58,7 +72,7 @@ const MyHospital = ({ hospital }) => {
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem>
-              <form action={deleteHospital }>
+              <form onSubmit={deleteHospital}>
                 <button type="submit">Delete</button>
               </form>
             </DropdownMenuItem>
@@ -69,40 +83,4 @@ const MyHospital = ({ hospital }) => {
   );
 }
 
-export default MyHospital ;
-
-// Sample data structure for the hospital prop
-// const sampleHospital = {
-//   logoUrl: 'https://path-to-logo.com/logo.jpg',
-//   name: 'Life Care Dental and Implant Centre',
-//   ad: true,
-//   dentistsCount: 2,
-//   experienceRange: '9 - 27 years',
-//   location: 'Manimajra',
-//   consultationFees: 500,
-// };
-
-// Example usage
-// const HospitalDashboard = () => {
-//   return (
-//     <table>
-//       <thead>
-//         <tr>
-//           <th>Logo</th>
-//           <th>Name</th>
-//           <th>Type</th>
-//           <th>Dentists</th>
-//           <th>Experience</th>
-//           <th>Location</th>
-//           <th>Consultation Fees</th>
-//           <th>Actions</th>
-//         </tr>
-//       </thead>
-//       <tbody>
-//         <Hospital hospital={sampleHospital} />
-//       </tbody>
-//     </table>
-//   );
-// };
-
-// export default HospitalDashboard;
+export default MyHospital;

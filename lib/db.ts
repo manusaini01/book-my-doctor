@@ -84,6 +84,7 @@ export const hospitals = pgTable('hospitals', {
   consultationFee: numeric('consultation_fee', { precision: 10, scale: 2 }).notNull()
 });
 
+
 export type SelectHospital = typeof hospitals.$inferSelect;
 export const insertHospitalSchema = createInsertSchema(hospitals);
 
