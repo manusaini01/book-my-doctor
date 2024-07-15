@@ -22,7 +22,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { dummyHospitals, SelectHospital } from '@/components/hospital/dummy';
 
-export default function HospitalsTable({
+export default function page({
   hospitals = dummyHospitals,
   offset = 0,
   totalHospitals = 0
@@ -41,7 +41,6 @@ export default function HospitalsTable({
   function nextPage() {
     router.push(`/?offset=${offset}`, { scroll: false });
   }
-  console.log(hospitals)
 
   return (
     <Card>
