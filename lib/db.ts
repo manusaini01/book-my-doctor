@@ -14,6 +14,7 @@ import {
 import { count, eq, ilike } from 'drizzle-orm';
 import { createInsertSchema } from 'drizzle-zod';
 
+// export const db = drizzle(neon('postgres://default:RlOANL69bvEh@ep-frosty-fire-a46aadhw-pooler.us-east-1.aws.neon.tech/verceldb?sslmode=require'));
 export const db = drizzle(neon(process.env.POSTGRES_URL!));
 
 export const statusEnum = pgEnum('status', ['active', 'inactive', 'archived']);
