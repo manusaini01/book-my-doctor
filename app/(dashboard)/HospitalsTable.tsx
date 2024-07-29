@@ -45,9 +45,9 @@ export function HospitalsTable({
     <Card>
       <CardHeader>
         <CardTitle>Hospitals</CardTitle>
-        <CardDescription>
+        {/* <CardDescription>
           Manage your hospitals and view their details.
-        </CardDescription>
+        </CardDescription> */}
       </CardHeader>
       <CardContent>
         <Table>

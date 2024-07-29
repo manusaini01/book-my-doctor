@@ -130,3 +130,54 @@ export async function getHospitals(
 export async function deleteHospitalById(id: number) {
   await db.delete(hospitals).where(eq(hospitals.id, id));
 }
+
+
+
+export async function getDoctor(
+  search: string,
+  offset: number
+): Promise<{
+  hospitals: SelectHospital[];
+  newOffset: number | null;
+  totalHospitals: number;
+}> {
+  // Always search the full table, not per page
+  if (search) {
+    return {
+      hospitals: await db
+        .select()
+        .from(hospitals)
+        .where(ilike(hospitals.name, `%${search}%`))
+        .limit(1000),
+      newOffset: null,
+      totalHospitals: 0
+    };
+  }
+
+  if (offset === null) {
+    return { hospitals: [], newOffset: null, totalHospitals: 0 };
+  }
+
+  let totalHospitals = await db.select({ count: count() }).from(hospitals);
+  let moreHospitals = await db.select().from(hospitals).limit(5).offset(offset);
+  let newOffset = moreHospitals.length >= 5 ? offset + 5 : null;
+
+  return {
+    hospitals: moreHospitals,
+    newOffset,
+    totalHospitals: totalHospitals[0].count
+  };
+}
+
+
+export interface SelectDoctor {
+  id: number;
+  name: string;
+  specialization: string;
+  experience: number;
+  availability: string;
+  education: string;
+  imageUrl?: string;
+}
+
+

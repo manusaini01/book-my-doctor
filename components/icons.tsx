@@ -89,6 +89,7 @@ export function Spinner() {
 
 export function Logo() {
   return (
+    <>
     <svg
       width="32"
       height="32"
@@ -105,8 +106,60 @@ export function Logo() {
         fill="black"
       />
     </svg>
+    </>
   );
 }
+
+interface MySVGProps {
+  size?: number;
+  color?: string;
+}
+
+export const  MyLogo: React.FC<MySVGProps> = ({ size = 512, color = 'currentColor' }) => {
+  const handleFill = (fill: string) => {
+    return fill === 'currentColor' ? color : fill;
+  };
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      // viewBox="0 0 512 512"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="rounded-lg"
+    >
+      <rect width="100%" height="100%" rx="0" fill={handleFill('#AED5F3')} />
+      <rect x={(size / 512) * 51.2} width={(size / 512) * 460.8} height={size} fill={handleFill('#C9E3F7')} />
+      <g>
+        <rect
+          y={(size / 512) * 51.2}
+          width={(size / 512) * 51.2}
+          height={(size / 512) * 119.467}
+          fill={handleFill('#5A8BB0')}
+        />
+        <rect
+          y={(size / 512) * 341.333}
+          width={(size / 512) * 51.2}
+          height={(size / 512) * 119.467}
+          fill={handleFill('#5A8BB0')}
+        />
+      </g>
+      <rect x={(size / 512) * 256} width={(size / 512) * 256} height={size} fill={handleFill('#AED5F3')} />
+      <rect
+        x={(size / 512) * 460.8}
+        y={(size / 512) * 170.667}
+        width={(size / 512) * 51.2}
+        height={(size / 512) * 170.667}
+        fill={handleFill('#3C5D76')}
+      />
+      <polygon
+        points={`${(size / 512) * 392.533},${(size / 512) * 201.387} ${(size / 512) * 310.613},${(size / 512) * 201.387} ${(size / 512) * 310.613},${(size / 512) * 119.467} ${(size / 512) * 201.387},${(size / 512) * 119.467} ${(size / 512) * 201.387},${(size / 512) * 201.387} ${(size / 512) * 119.467},${(size / 512) * 201.387} ${(size / 512) * 119.467},${(size / 512) * 310.613} ${(size / 512) * 201.387},${(size / 512) * 310.613} ${(size / 512) * 201.387},${(size / 512) * 392.533} ${(size / 512) * 310.613},${(size / 512) * 392.533} ${(size / 512) * 310.613},${(size / 512) * 310.613} ${(size / 512) * 392.533},${(size / 512) * 310.613}`}
+        fill={handleFill('#FFFFFF')}
+      />
+    </svg>
+  );
+};
 
 export function VercelLogo(props: React.SVGProps<SVGSVGElement>) {
   return (

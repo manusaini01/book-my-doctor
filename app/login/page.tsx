@@ -14,21 +14,38 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
-          <CardDescription>
-            This demo uses GitHub for authentication.
-          </CardDescription>
         </CardHeader>
+       
+        <form
+          action={async (formData) => {
+            "use server"
+            await signIn("Credentials", formData)
+        }}
+        className='space-y-5 space-x-5 w-full mb-3'
+      >
+          <label className='block'>
+            Email
+            <input name="email" type="email" className=' block border'/>
+          </label>
+          <label className='block'>
+            Password
+            <input name="password" type="password" className=' block border'/>
+          </label >
+          <Button className="">Sign In</Button>
+        </form>
+
+        {/* google */}
         <CardFooter>
           <form
             action={async () => {
               'use server';
-              await signIn('github', {
+              await signIn('google', {
                 redirectTo: '/'
               });
             }}
             className="w-full"
           >
-            <Button className="w-full">Sign in with GitHub</Button>
+            <Button className="w-full">Sign in with Google</Button>
           </form>
         </CardFooter>
       </Card>

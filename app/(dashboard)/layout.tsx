@@ -27,7 +27,7 @@ import {
 } from '@/components/ui/tooltip';
 import { Analytics } from '@vercel/analytics/react';
 import { User } from './user';
-import { VercelLogo } from '@/components/icons';
+import { MyLogo } from '@/components/icons';
 import Providers from './providers';
 import { NavItem } from './nav-item';
 import { SearchInput } from './search';
@@ -70,23 +70,23 @@ function DesktopNav() {
           <span className="sr-only">Acme Inc</span>
         </Link> */}
 
-        <NavItem href="#" label="Dashboard">
+        <NavItem href="/" label="Dashboard ">
           <Home className="h-5 w-5" />
         </NavItem>
 
-        <NavItem href="#" label="Orders">
+        <NavItem href="/" label="Dashboard ">
           <ShoppingCart className="h-5 w-5" />
         </NavItem>
 
-        <NavItem href="/" label="Products">
+        <NavItem href="/" label="Dashboard ">
           <Package className="h-5 w-5" />
         </NavItem>
 
-        <NavItem href="/customers" label="Customers">
+        <NavItem href="/" label="Dashboard ">
           <Users2 className="h-5 w-5" />
         </NavItem>
 
-        <NavItem href="#" label="Analytics">
+        <NavItem href="/" label="Dashboard ">
           <LineChart className="h-5 w-5" />
         </NavItem>
       </nav>
@@ -131,35 +131,35 @@ function MobileNav() {
             className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
           >
             <Home className="h-5 w-5" />
-            Dashboard
+            Dashboard 1
           </Link>
           <Link
             href="#"
             className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
           >
             <ShoppingCart className="h-5 w-5" />
-            Orders
+            Dashboard 2
           </Link>
           <Link
             href="#"
             className="flex items-center gap-4 px-2.5 text-foreground"
           >
             <Package className="h-5 w-5" />
-            Products
+            Dashboard 3
           </Link>
           <Link
             href="#"
             className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
           >
             <Users2 className="h-5 w-5" />
-            Customers
+            Dashboard 4
           </Link>
           <Link
             href="#"
             className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
           >
             <LineChart className="h-5 w-5" />
-            Settings
+            Dashboard 5
           </Link>
         </nav>
       </SheetContent>
@@ -171,22 +171,24 @@ function DashboardBreadcrumb() {
   return (
     <Breadcrumb className="hidden md:flex">
       <BreadcrumbList>
-        <BreadcrumbItem>
+      <Link href='/'>
+      <MyLogo size={80} color=''></MyLogo>
+      </Link>
+        {/* <BreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link href="#">Dashboard</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
-        <BreadcrumbSeparator />
+        <BreadcrumbSeparator /> */}
         {/* <BreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link href="#">Products</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator /> */}
-        <BreadcrumbItem>
+        {/* <BreadcrumbItem>
           <BreadcrumbPage>All hospitals</BreadcrumbPage>
-          {/* <BreadcrumbPage>All Products</BreadcrumbPage> */}
-        </BreadcrumbItem>
+        </BreadcrumbItem> */}
       </BreadcrumbList>
     </Breadcrumb>
   );

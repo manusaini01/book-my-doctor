@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { MoreHorizontal } from 'lucide-react';
 import { TableCell, TableRow } from '@/components/ui/table';
+import { useRouter } from 'next/router';
 
 interface Props {
   hospital: {
@@ -24,13 +25,22 @@ interface Props {
 }
 
 const MyHospital = ({ hospital }: Props) => {
-  
+  // const router = useRouter(); 
+
+  const handleCardClick = async () => {
+    const response = await fetch('/api/redirect-to-doctor');
+    if (!response.ok) {
+        // Handle error
+    }
+    window.location.href = '/doctor'; // Or handle the redirect based on response
+};
+
   function deleteHospital() {
     // Implement delete functionality here
   }
 
   return (
-    <TableRow>
+    <TableRow onClick={handleCardClick} className='cursor-pointer'>
       <TableCell className="hidden sm:table-cell">
         {/* <Image
           alt="Hospital logo"
