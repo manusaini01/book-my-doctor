@@ -1,183 +1,87 @@
 import 'server-only';
-
 import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import {
   pgTable,
   text,
-  numeric,
-  integer,
   timestamp,
+  uuid,
   pgEnum,
-  serial
+  primaryKey
 } from 'drizzle-orm/pg-core';
-import { count, eq, ilike } from 'drizzle-orm';
 import { createInsertSchema } from 'drizzle-zod';
+// import { eq } from 'drizzle-orm/pg-core'; // Make sure to import eq
 
-// export const db = drizzle(neon('postgres://default:RlOANL69bvEh@ep-frosty-fire-a46aadhw-pooler.us-east-1.aws.neon.tech/verceldb?sslmode=require'));
+// Initialize database
 export const db = drizzle(neon(process.env.POSTGRES_URL!));
 
+// Define status enum
 export const statusEnum = pgEnum('status', ['active', 'inactive', 'archived']);
 
-export const products = pgTable('products', {
-  id: serial('id').primaryKey(),
-  imageUrl: text('image_url').notNull(),
-  name: text('name').notNull(),
-  status: statusEnum('status').notNull(),
-  price: numeric('price', { precision: 10, scale: 2 }).notNull(),
-  stock: integer('stock').notNull(),
-  availableAt: timestamp('available_at').notNull()
+// Define roles enum
+export const roleEnum = pgEnum('role', ['admin', 'hospital', 'doctor', 'receptionist']);
+
+// Define roles table
+export const roles = pgTable('roles', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: roleEnum('role').notNull().unique()
 });
 
-export type SelectProduct = typeof products.$inferSelect;
-export const insertProductSchema = createInsertSchema(products);
-
-export async function getProducts(
-  search: string,
-  offset: number
-): Promise<{
-  products: SelectProduct[];
-  newOffset: number | null;
-  totalProducts: number;
-}> {
-  // Always search the full table, not per page
-  if (search) {
-    return {
-      products: await db
-        .select()
-        .from(products)
-        .where(ilike(products.name, `%${search}%`))
-        .limit(1000),
-      newOffset: null,
-      totalProducts: 0
-    };
-  }
-
-  if (offset === null) {
-    return { products: [], newOffset: null, totalProducts: 0 };
-  }
-
-  let totalProducts = await db.select({ count: count() }).from(products);
-  let moreProducts = await db.select().from(products).limit(5).offset(offset);
-  let newOffset = moreProducts.length >= 5 ? offset + 5 : null;
-
-  return {
-    products: moreProducts,
-    newOffset,
-    totalProducts: totalProducts[0].count
-  };
-}
-
-export async function deleteProductById(id: number) {
-  await db.delete(products).where(eq(products.id, id));
-}
-
-
-
-export const hospitals = pgTable('hospitals', {
-  id: serial('id').primaryKey(),
-  name: text('name').notNull(),
-  type: text('type').notNull(),
-  dentists: integer('dentists').notNull(),
-  experience: text('experience').notNull(),
-  location: text('location').notNull(),
-  consultationFee: numeric('consultation_fee', { precision: 10, scale: 2 }).notNull()
+// Define users table
+export const users = pgTable('users', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  username: text('username').notNull().unique(),
+  password_hash: text('password_hash').notNull(),
+  role_id: uuid('role_id').references(() => roles.id),
+  email: text('email').notNull().unique(),
+  phone: text('phone').notNull().unique(),
+  created_at: timestamp('created_at').defaultNow()
 });
 
+// Define sessions table
+export const sessions = pgTable('sessions', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  user_id: uuid('user_id').references(() => users.id),
+  token: text('token').notNull(),
+  expires_at: timestamp('expires_at').notNull(),
+  created_at: timestamp('created_at').defaultNow()
+});
 
-export type SelectHospital = typeof hospitals.$inferSelect;
-export const insertHospitalSchema = createInsertSchema(hospitals);
+// Define tokens table for refresh tokens
+export const tokens = pgTable('tokens', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  user_id: uuid('user_id').references(() => users.id),
+  refresh_token: text('refresh_token').notNull(),
+  expires_at: timestamp('expires_at').notNull()
+});
 
+// Define types for selects
+export type SelectUser = typeof users.$inferSelect;
+export type SelectRole = typeof roles.$inferSelect;
+export type SelectSession = typeof sessions.$inferSelect;
+export type SelectToken = typeof tokens.$inferSelect;
 
-// import { getManager } from "typeorm";
+// Define schema for inserts
+export const insertUserSchema = createInsertSchema(users);
+export const insertRoleSchema = createInsertSchema(roles);
+export const insertSessionSchema = createInsertSchema(sessions);
+export const insertTokenSchema = createInsertSchema(tokens);
 
-export async function getHospitals(
-  search: string,
-  offset: number
-): Promise<{
-  hospitals: SelectHospital[];
-  newOffset: number | null;
-  totalHospitals: number;
-}> {
-  // Always search the full table, not per page
-  if (search) {
-    return {
-      hospitals: await db
-        .select()
-        .from(hospitals)
-        .where(ilike(hospitals.name, `%${search}%`))
-        .limit(1000),
-      newOffset: null,
-      totalHospitals: 0
-    };
-  }
-
-  if (offset === null) {
-    return { hospitals: [], newOffset: null, totalHospitals: 0 };
-  }
-
-  let totalHospitals = await db.select({ count: count() }).from(hospitals);
-  let moreHospitals = await db.select().from(hospitals).limit(5).offset(offset);
-  let newOffset = moreHospitals.length >= 5 ? offset + 5 : null;
-
-  return {
-    hospitals: moreHospitals,
-    newOffset,
-    totalHospitals: totalHospitals[0].count
-  };
-}
-
-export async function deleteHospitalById(id: number) {
-  await db.delete(hospitals).where(eq(hospitals.id, id));
-}
-
-
-
-export async function getDoctor(
-  search: string,
-  offset: number
-): Promise<{
-  hospitals: SelectHospital[];
-  newOffset: number | null;
-  totalHospitals: number;
-}> {
-  // Always search the full table, not per page
-  if (search) {
-    return {
-      hospitals: await db
-        .select()
-        .from(hospitals)
-        .where(ilike(hospitals.name, `%${search}%`))
-        .limit(1000),
-      newOffset: null,
-      totalHospitals: 0
-    };
-  }
-
-  if (offset === null) {
-    return { hospitals: [], newOffset: null, totalHospitals: 0 };
-  }
-
-  let totalHospitals = await db.select({ count: count() }).from(hospitals);
-  let moreHospitals = await db.select().from(hospitals).limit(5).offset(offset);
-  let newOffset = moreHospitals.length >= 5 ? offset + 5 : null;
-
-  return {
-    hospitals: moreHospitals,
-    newOffset,
-    totalHospitals: totalHospitals[0].count
-  };
-}
-
+// export const deleteSessionByToken = async (token: string) => {
+//   await db.delete(sessions).where(eq(sessions.token, token));
+// };
+// export const deleteTokenByUserId = async (userId: string) => {
+//   await db.delete(tokens).where(eq(tokens.user_id, userId));
+// };
 
 export interface SelectDoctor {
   id: number;
   name: string;
   specialization: string;
   experience: number;
+  // profilePictureUrl: string;
+  imageUrl: string;
   availability: string;
   education: string;
-  imageUrl?: string;
+  // Add other fields as needed
 }
-
-

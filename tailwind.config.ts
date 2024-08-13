@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+const { fontFamily } = require("tailwindcss/defaultTheme")
 
 export default {
   darkMode: ['class'],
@@ -6,6 +7,7 @@ export default {
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
+    './.{ts,tsx}',
     './src/**/*.{ts,tsx}'
   ],
   prefix: '',
@@ -18,7 +20,13 @@ export default {
       }
     },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-sans)", ...fontFamily.sans],
+      },
       colors: {
+        dentalBlue: '#4ABDAC',
+        dentalTeal: '#00796B',
+        dentalWhite: '#FFFFFF',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

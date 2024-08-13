@@ -1,5 +1,5 @@
-'use client'
 // app/login/page.tsx
+
 import { Button } from 'components/ui/button';
 import {
   Card,
@@ -8,18 +8,26 @@ import {
   CardHeader,
   CardTitle
 } from 'components/ui/card';
+// import { signIn } from '@/lib/auth';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import handleFormSubmit from './actions';
 
-export default async function LoginPage({ searchParams }: { searchParams: { email?: string } }) {
-  const email = searchParams.email || '';  
+export default async function Join_us() {
+
+  // Form submission handler
+  async function handleFormSubmit(formData: FormData) {
+    "use server";
+    const hName = formData.get('hname') as string;
+    const hEmail = formData.get('hemail') as string;
+    const hPhone = formData.get('hphone') as string;
+    
+    // await signIn("Credentials", { email, password });
+  }
 
   return (
     <div className="min-h-screen flex justify-center items-center">
       <Card className="max-w-fit">
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl">Enter Hospital</CardTitle>
         </CardHeader>
 
         <form
@@ -27,23 +35,30 @@ export default async function LoginPage({ searchParams }: { searchParams: { emai
           className='space-y-5 px-5 text-xl mb-3'
         >
           <label className='block'>
-            Email
+          Hospital Name
+        <input
+          name="hname"
+          type="text"
+          className='mt-2 py-2 px-4 block border'
+        />
+      </label>
+          <label className='block'>
+        Email
             <input
-              name="email"
+              name="hemail"
               type="email"
-              defaultValue={email}
               className='mt-2 py-2 px-4 block border'
             />
           </label>
           <label className='block'>
-            Password
+          Phone
             <input
-              name="password"
-              type="password"
+              name="hphone"
+              type="phone"
               className='mt-2 py-2 px-4 block border'
             />
           </label>
-          <Button className="flex-row-reverse">Log In</Button>
+          <Button className="flex-row-reverse">Submit</Button>
         </form>
 
         {/* Google Sign-In */}
