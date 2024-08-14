@@ -16,7 +16,7 @@ const HeroComp = () => {
                         {/* <Link href='/join_us_form'>
                         <JoinButton btn_text="Join Us Now" />
                         </Link> */}
-                        <Link href='/signup' className=' ml-10'>
+                        <Link href='/signup' className='sm:ml-10'>
                         <JoinButton btn_text="Join Us Now" />
                         </Link>
                     </div>
