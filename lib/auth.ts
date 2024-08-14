@@ -41,9 +41,9 @@ export async function registerUser(req: NextRequest) {
     }
 
     // Check if the user already exists
-    const userCheck = await pool.query('SELECT id FROM users WHERE username = $1 OR phone = $2 OR email = $3', [username, phone, email]);
+    const userCheck = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
     if (userCheck.rows.length > 0) {
-      throw new ApiError('User with this username, phone, or email already exists', 400);
+      throw new ApiError('User already exists', 400);
     }
 
     // Hash the password

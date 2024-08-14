@@ -15,7 +15,6 @@ export default async function handleFormSubmit(formData: FormData) {
         phone,
         role
       };
-      console.log(payload, "ok")
 
       // Send data to the API route using fetch
       const response = await fetch(`/api/auth/signup`, {
@@ -32,6 +31,7 @@ export default async function handleFormSubmit(formData: FormData) {
       }
   
       const data = await response.json();
+      window.location.href = '/doctor/dashboard';
       console.log('signup response:', data);
       // Handle success (e.g., navigate, store tokens, etc.)
     } catch (error) {
