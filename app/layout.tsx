@@ -6,12 +6,12 @@ import { Analytics } from '@vercel/analytics/react';
 
 
 export const metadata = {
-  title: 'Next.js App Router + NextAuth + Tailwind CSS',
-  description: 'A user admin dashboard configured with Next.js, Postgres, NextAuth, Tailwind CSS, TypeScript, and Prettier.',
+  title: 'Book a Dentist Online | Top Dental Care & Appointments Near You',
+  description: 'Find and book a trusted dentist online for all your dental care needs. Easy scheduling, verified reviews, and top-rated professionals near you. Your smile deserves the best!',
   metadataBase: new URL('https://your-domain.com'), // Replace with your actual domain
   openGraph: {
-    title: 'Next.js App Router + NextAuth + Tailwind CSS',
-    description: 'A user admin dashboard configured with Next.js, Postgres, NextAuth, Tailwind CSS, TypeScript, and Prettier.',
+    title: 'Book a Dentist Online | Top Dental Care & Appointments Near You',
+    description: 'Find and book a trusted dentist online for all your dental care needs. Easy scheduling, verified reviews, and top-rated professionals near you. Your smile deserves the best!',
     url: 'https://your-domain.com', // Replace with your actual domain
     images: [
       {
