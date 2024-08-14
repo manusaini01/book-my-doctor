@@ -27,7 +27,7 @@ export default function LoginWithInput() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Enter your email"
-        className="flex-1 w-auto px-4 py-2 focus:outline-none"
+        className="flex-1 min-w-10 px-4 py-2 focus:outline-none"
       />
       <button
         className="bg-teal-500 flex hover:bg-teal-600 text-white font-semibold py-2 px-4 transition-colors duration-300"
