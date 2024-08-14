@@ -33,8 +33,8 @@ export default function LoginWithInput() {
         className="bg-teal-500 flex hover:bg-teal-600 text-white font-semibold py-2 px-4 transition-colors duration-300"
         onClick={handleLoginClick}
       >
-        Login 
-        <span className='sm:flex hidden'>&nbsp; here</span>
+        Login &nbsp;
+        <span className='sm:block hidden'> here</span>
       </button>
     </div>
   );
