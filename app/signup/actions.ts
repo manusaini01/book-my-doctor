@@ -19,7 +19,7 @@ export default async function handleFormSubmit(formData: FormData) {
       console.log(payload, "ok")
 
       // Send data to the API route using fetch
-      const response = await fetch('http://localhost:3000/api/auth/signup', {
+      const response = await fetch(`${process.env.HOST}/api/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
