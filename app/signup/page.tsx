@@ -106,7 +106,7 @@ export default async function LoginPage({ searchParams }: { searchParams: { emai
 
           </label>
 
-          <Button className="flex-row-reverse">Log In</Button>
+          <Button className="flex-row-reverse">Submit</Button>
         </form>
 
         {/* Google Sign-In */}

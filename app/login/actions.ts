@@ -3,7 +3,7 @@ export default async function handleFormSubmit(formData: FormData) {
     // "use server";
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
-  
+
     try {
       // Construct the JSON payload
       const payload = {
@@ -12,7 +12,7 @@ export default async function handleFormSubmit(formData: FormData) {
       };
   
       // Send data to the API route using fetch
-      const response = await fetch(`${process.env.HOST} /api/auth/login`, {
+      const response = await fetch(`/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

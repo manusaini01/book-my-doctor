@@ -23,9 +23,9 @@ const generateTokens = (payload: object) => {
 };
 
 export async function registerUser(req: NextRequest) {
-  if (req.method !== 'POST') {
-    return NextResponse.json(new ApiError('Method not allowed', 405), { status: 405 });
-  }
+  // if (req.method !== 'POST') {
+  //   return NextResponse.json(new ApiError('Method not allowed', 405), { status: 405 });
+  // }
 
   const { username, phone, email, password, role } = await req.json();
 
@@ -88,9 +88,9 @@ export async function registerUser(req: NextRequest) {
 }
 
 export async function loginUser(req: NextRequest) {
-  if (req.method !== 'POST') {
-    return NextResponse.json(new ApiError('Method not allowed', 405), { status: 405 });
-  }
+  // if (req.method !== 'POST') {
+  //   return NextResponse.json(new ApiError('Method not allowed', 405), { status: 405 });
+  // }
 
   const { email, password } = await req.json();
 
