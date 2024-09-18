@@ -53,9 +53,12 @@ const AddDoctorForm = () => {
         const response = await fetchHospitalById();
         if (response && response.data) {
           const hospitalData: SelectHospital = response.data;
+        console.log(hospitalData, "hospitalData")
+
           if (hospitalData) {
             dispatch(setData([hospitalData]));
             updatedFormData = { ...updatedFormData, hospital_id: hospitalData.hospital_id };
+            console.log(updatedFormData, "updatedFormData")
 
             // Update the form data state before proceeding
             setFormData(updatedFormData);
@@ -73,6 +76,7 @@ const AddDoctorForm = () => {
       } else {
         // If hospital data is already present
         updatedFormData = { ...updatedFormData, hospital_id: hospital[0].hospital_id };
+        console.log(updatedFormData, "updatedFormData")
 
         // Update the form data state before proceeding
         setFormData(updatedFormData);

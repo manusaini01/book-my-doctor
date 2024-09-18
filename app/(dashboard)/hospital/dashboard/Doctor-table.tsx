@@ -42,8 +42,12 @@ export function DoctorsTable() {
         if (!hospital || !hospital[0]?.hospital_id) {
           const response = await fetchHospitalById();
           if (response && response.data) {
+          console.log(response.data, "response.data")
+
             const hospitalData: SelectHospital = response.data;
             if (hospitalData) {
+          console.log(hospitalData, "hospitalData")
+
               dispatch(setData([hospitalData]));
               setHospitalId(hospitalData.hospital_id);
             } else {
@@ -57,6 +61,8 @@ export function DoctorsTable() {
             return;
           }
         } else {
+          console.log(hospital[0].hospital_id, "hospital[0].hospital_id")
+
           setHospitalId(hospital[0].hospital_id);
         }
       } catch (error) {
