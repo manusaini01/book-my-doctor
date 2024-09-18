@@ -15,7 +15,7 @@ import { count, eq, ilike } from 'drizzle-orm';
 import { createInsertSchema } from 'drizzle-zod';
 import { db } from '../db';
 
-export const hospitals = pgTable('hospitals', {
+export const hospitals = pgTable('healthcare_facilities', {
     id: serial('id').primaryKey(),
     name: text('name').notNull(),
     type: text('type').notNull(),
@@ -65,8 +65,3 @@ export async function getHospitals(
         totalHospitals: totalHospitals[0].count
     };
 }
-
-export async function deleteHospitalById(id: number) {
-    await db.delete(hospitals).where(eq(hospitals.id, id));
-}
-

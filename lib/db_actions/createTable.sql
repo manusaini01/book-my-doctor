@@ -1,83 +1,178 @@
--- schema.sql
-
--- Table for Users
 CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  full_name VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL UNIQUE,
-  phone VARCHAR(15) NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  role VARCHAR(50) NOT NULL,
-  hospital_id INT REFERENCES hospitals(id) -- Optional for clients and system-wide admins
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    role_id uuid,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    email text NOT NULL UNIQUE,
+    username text NOT NULL UNIQUE,
+    password_hash text NOT NULL,
+    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
--- Table for Hospital
 CREATE TABLE hospitals (
-  id SERIAL PRIMARY KEY,
-  logo TEXT NOT NULL,
-  name VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL UNIQUE,
-  phone VARCHAR(15) NOT NULL,
-  address TEXT NOT NULL,
-  registration_number VARCHAR(50) NOT NULL,
-  website TEXT,
-  specialties TEXT[],
-  operating_hours TEXT
+    hospital_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id uuid NOT NULL REFERENCES users(id) ON DELETE RESTRICT, -- Foreign key to users table
+    name varchar(255) NOT NULL,
+    email text NOT NULL UNIQUE,  -- Email with UNIQUE constraint
+    logo text,
+    description text,
+    city varchar(100),
+    state varchar(100),
+    phone_number varchar(20),
+    -- website_url varchar(255),
+    -- operating_hours varchar(255),
+    -- social_media_links jsonb,
+    -- ratings numeric(3,2),
+    -- reviews jsonb,
+    -- virtual_tour_url varchar(255),
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table for Doctor
+
 CREATE TABLE doctors (
-  id SERIAL PRIMARY KEY,
-  user_id INT REFERENCES users(id),
-  profile_picture TEXT NOT NULL,
-  specialization VARCHAR(255) NOT NULL,
-  qualifications TEXT NOT NULL,
-  experience INT NOT NULL,
-  availability TEXT NOT NULL,
-  consultation_fee NUMERIC(10, 2) NOT NULL,
-  bio TEXT,
-  languages_spoken TEXT[],
-  hospital_id INT REFERENCES hospitals(id)
+    doctor_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    hospital_id uuid NOT NULL REFERENCES hospitals(hospital_id) ON DELETE CASCADE,
+    name varchar(255) NOT NULL,
+    email text NOT NULL UNIQUE,  -- Email with UNIQUE constraint
+    specialization varchar(255),
+    qualifications text,
+    contact_info jsonb,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table for Receptionist
 CREATE TABLE receptionists (
-  id SERIAL PRIMARY KEY,
-  user_id INT REFERENCES users(id),
-  profile_picture TEXT NOT NULL,
-  work_schedule TEXT NOT NULL,
-  assigned_departments TEXT[],
-  hospital_id INT REFERENCES hospitals(id)
+    receptionist_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    hospital_id uuid NOT NULL REFERENCES hospitals(hospital_id) ON DELETE CASCADE,
+    name varchar(255) NOT NULL,
+    email text NOT NULL UNIQUE,  -- Email with UNIQUE constraint
+    contact_info jsonb,
+    shift_details jsonb,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table for Admin
-CREATE TABLE admins (
-  id SERIAL PRIMARY KEY,
-  user_id INT REFERENCES users(id),
-  profile_picture TEXT NOT NULL,
-  role VARCHAR(255) NOT NULL,
-  permissions TEXT[],
-  hospital_id INT REFERENCES hospitals(id) -- Optional for system-wide admins
+
+
+
+
+
+
+
+CREATE TABLE availabilities (
+    id UUID PRIMARY KEY,
+    doctor_id UUID NOT NULL,
+    available_days JSONB NOT NULL,
+    available_hours JSONB NOT NULL,
+    created_at TIMESTAMPTZ NULL,
+    updated_at TIMESTAMPTZ NULL
 );
 
--- Table for Client (Guest)
-CREATE TABLE clients (
-  id SERIAL PRIMARY KEY,
-  user_id INT REFERENCES users(id),
-  preferred_time TEXT NOT NULL
+CREATE TABLE doctor_receptionist_assignments (
+    doctor_id UUID NOT NULL,
+    receptionist_id UUID NOT NULL,
+    PRIMARY KEY (doctor_id, receptionist_id)
 );
--- users table
-CREATE TABLE users (
+
+CREATE TABLE doctor_receptionist_assignments (
+    doctor_id UUID NOT NULL,
+    receptionist_id UUID NOT NULL,
+    hospital_id UUID NOT NULL,
+    PRIMARY KEY (doctor_id, receptionist_id, hospital_id),
+    FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id),
+    FOREIGN KEY (receptionist_id) REFERENCES receptionists(receptionist_id),
+    FOREIGN KEY (hospital_id) REFERENCES hospitals(hospital_id)
+);
+
+
+CREATE TABLE doctors (
+    doctor_id UUID PRIMARY KEY,
+    hospital_id UUID NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    specialization VARCHAR(255) NULL,
+    qualifications TEXT NULL,
+    contact_info JSONB NULL,
+    created_at TIMESTAMPTZ NULL,
+    updated_at TIMESTAMPTZ NULL,
+    user_id UUID NULL,
+    email TEXT NOT NULL
+    image_url TEXT NULL,
+);
+
+CREATE TABLE healthcare_facilities (
     id SERIAL PRIMARY KEY,
-    username VARCHAR(255) UNIQUE NOT NULL,
-    password_hash TEXT NOT NULL,
-    role VARCHAR(50) NOT NULL -- e.g., 'admin', 'user'
+    name VARCHAR(255) NOT NULL,
+    type VARCHAR(50) NOT NULL,
+    dentists INTEGER NOT NULL,
+    experience VARCHAR(50) NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    consultation_fee NUMERIC NOT NULL
 );
 
--- sessions table
+CREATE TABLE hospitals (
+    hospital_id UUID PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    logo TEXT NULL,
+    description TEXT NULL,
+    address VARCHAR(255) NULL,
+    city VARCHAR(100) NULL,
+    state VARCHAR(100) NULL,
+    phone_number VARCHAR(20) NULL,
+    email VARCHAR(255) NULL,
+    website_url VARCHAR(255) NULL,
+    operating_hours VARCHAR(255) NULL,
+    social_media_links JSONB NULL,
+    ratings NUMERIC NULL,
+    reviews JSONB NULL,
+    gallery_images JSONB NULL,
+    virtual_tour_url VARCHAR(255) NULL,
+    events JSONB NULL,
+    news_announcements JSONB NULL,
+    created_at TIMESTAMPTZ NULL,
+    updated_at TIMESTAMPTZ NULL,
+    user_id UUID NULL
+);
+
+CREATE TABLE receptionists (
+    receptionist_id UUID PRIMARY KEY,
+    hospital_id UUID NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    contact_info JSONB NULL,
+    shift_details JSONB NULL,
+    created_at TIMESTAMPTZ NULL,
+    updated_at TIMESTAMPTZ NULL,
+    user_id UUID NULL,
+    email TEXT NOT NULL
+);
+
+CREATE TABLE roles (
+    id UUID PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
 CREATE TABLE sessions (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
-    token TEXT UNIQUE NOT NULL,
-    expires_at TIMESTAMP NOT NULL
+    id UUID PRIMARY KEY,
+    user_id UUID NULL,
+    token TEXT NOT NULL,
+    expires_at TIMESTAMPTZ NOT NULL,
+    created_at TIMESTAMPTZ NULL
 );
+
+CREATE TABLE tokens (
+    id UUID PRIMARY KEY,
+    user_id UUID NULL,
+    refresh_token TEXT NOT NULL,
+    expires_at TIMESTAMPTZ NOT NULL
+);
+
+CREATE TABLE users (
+    id UUID PRIMARY KEY,
+    username TEXT NOT NULL,
+    password_hash TEXT NOT NULL,
+    role_id UUID NULL,
+    email TEXT NOT NULL,
+    created_at TIMESTAMPTZ NULL
+);
+

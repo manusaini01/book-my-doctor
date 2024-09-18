@@ -1,5 +1,5 @@
+'use client'
 import { Button } from 'components/ui/button';
-// import { auth, signOut } from '@/lib/auth';
 import Image from 'next/image';
 import {
   DropdownMenu,
@@ -10,15 +10,28 @@ import {
   DropdownMenuTrigger
 } from 'components/ui/dropdown-menu';
 import Link from 'next/link';
-import { LogoutButton } from '../../actions/logoutButton';
+import { LogoutButton } from 'app/actions/logoutButton';
+import { useEffect, useState } from 'react';
 
+export function User() {
+  const [session, setSession] = useState<{ user: string; image: string } | null>(null);
+  
+  useEffect(() => {
+    async function fetchSession() {
+      // Replace the following line with actual logic to fetch session data
+      const sessionData = { user: "abc", image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" };
+      // const sessionData = await auth();
+      setSession(sessionData);
+    }
 
+    fetchSession();
+  }, []);
 
+  if (!session) {
+    return <div>Loading...</div>;
+  }
 
-export async function User() {
-  let session = {user: "abc", image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"};
-  // let session = await auth();
-  let user = session?.user;
+  const user = session.user;
 
   return (
     <DropdownMenu>
@@ -29,8 +42,7 @@ export async function User() {
           className="overflow-hidden rounded-full"
         >
           <Image
-            src={'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-            // src={user?.image ?? '/placeholder-user.jpg'}
+            src={session.image ?? '/placeholder-user.jpg'}
             width={36}
             height={36}
             alt="Avatar"
@@ -41,17 +53,20 @@ export async function User() {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem >
+          <Link href={`/dashboard/my-profile`} >
+          My Profile
+          </Link>
+          </DropdownMenuItem>
+        {/* <DropdownMenuItem>Support</DropdownMenuItem> */}
         <DropdownMenuSeparator />
         {user ? (
           <DropdownMenuItem>
-            <LogoutButton/>            
+            <LogoutButton />
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem>
             <Link href="/api/auth/signin">Sign In</Link>
-            {/* <Link href="/login">Sign In</Link> */}
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>

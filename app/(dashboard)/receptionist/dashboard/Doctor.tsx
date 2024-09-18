@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger
 } from 'components/ui/dropdown-menu';
 import { MoreHorizontal } from 'lucide-react';
-import { SelectDoctor } from '@/lib/db';
+import { SelectDoctor } from '@/lib/utils/types';
 
 function deleteDoctor() {
   // Implement delete functionality here
@@ -26,15 +26,15 @@ export function Doctor({ doctor }: { doctor: SelectDoctor }) {
           className="rounded-md object-cover m-auto"
           height={328}
           width={328}
-          src={doctor.imageUrl || 'https://images.pexels.com/photos/9888046/pexels-photo-9888046.jpeg'}
+          src={doctor.image_url || 'https://images.pexels.com/photos/9888046/pexels-photo-9888046.jpeg'}
         />
       </div>
       <div className="lg:text-justify md:text-center">
         <h2 className="text-xl font-semibold">{doctor.name || 'Doctor Name'}</h2>
         <p className="text-gray-500">{doctor.specialization || 'Specialization'}</p>
         <p className="mt-2"><strong>Experience:</strong> {doctor.experience ? `${doctor.experience} years` : 'Experience'}</p>
-        <p className="mt-2"><strong>Availability:</strong> {doctor.availability || 'MON TO SAT: 09:00 AM TO 01:00 PM & 04:00 PM TO 08:00 PM'}</p>
-        <p className="mt-2"><strong>Educational Qualification:</strong> {doctor.education || 'MBBS, MD'}</p>
+        <p className="mt-2"><strong>Availability:</strong> { 'MON TO SAT: 09:00 AM TO 01:00 PM & 04:00 PM TO 08:00 PM'}</p>
+        <p className="mt-2"><strong>Educational Qualification:</strong> {doctor.qualifications || 'MBBS, MD'}</p>
         <div className="mt-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

@@ -1,18 +1,25 @@
+
+export interface SignUp {
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+}
+
+
 // Form submission handler
-export default async function handleFormSubmit(formData: FormData) {
+export default async function handleFormSubmit(formData: SignUp) {
     // "use server";
-    const username = formData.get('username') as string;
-    const phone = formData.get('phone') as string;
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-    const role = formData.get('role') as string;
+    const username = formData.name
+    const email = formData.email
+    const password = formData.password
+    const role = formData.role
     try {
       // Construct the JSON payload
       const payload = {
         username,
         email,
         password,
-        phone,
         role
       };
 
@@ -26,16 +33,18 @@ export default async function handleFormSubmit(formData: FormData) {
       });
   
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Something went wrong');
+        const error = await response.json();
+        throw new Error(error || 'Something went wrong');
       }
   
       const data = await response.json();
       window.location.href = '/doctor/dashboard';
       console.log('signup response:', data);
+      return data;
       // Handle success (e.g., navigate, store tokens, etc.)
     } catch (error) {
       console.error('Error:', error);
+      return error;
       // Handle error (e.g., display error message)
     }
   }

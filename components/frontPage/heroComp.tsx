@@ -3,8 +3,6 @@ import JoinButton from './joinBtn'
 import LoginWithInput from './loginBtn'
 import Link from 'next/link'
 
-const host = process.env.HOST
-  console.log(host)
 const HeroComp = () => {
     return (
         <div>

@@ -9,10 +9,13 @@ import {
   CardTitle
 } from 'components/ui/card';
 import { Doctor } from './Doctor';
-import { SelectDoctor } from '@/lib/db';
+// import { SelectDoctor } from '@/lib/db';
+
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from 'components/ui/button';
+import { SelectDoctor } from '@/lib/utils/types';
+// import { SelectDoctor } from 'app/(dashboard)/hospital/dashboard/actions';
 
 export function DoctorsTable({
   doctors,
@@ -33,7 +36,6 @@ export function DoctorsTable({
   function nextPage() {
     router.push(`/?offset=${offset}`, { scroll: false });
   }
-
   return (
     <Card>
       <CardHeader>
@@ -48,7 +50,7 @@ export function DoctorsTable({
           <div className='lg:col-span-6'>
         <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-1 gap-4 ">
           {doctors.map((doctor) => (
-            <Doctor key={doctor.id} doctor={doctor} />
+            <Doctor key={doctor.doctor_id} doctor={doctor} />
           ))}
         </div>
           </div>

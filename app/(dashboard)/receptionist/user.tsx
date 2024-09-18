@@ -38,7 +38,10 @@ export async function User() {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
+        <DropdownMenuItem>
+        <Link href="/receptionist/dashboard/profile">Settings</Link>
+
+        </DropdownMenuItem>
         <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
         {user ? (
@@ -48,7 +51,6 @@ export async function User() {
         ) : (
           <DropdownMenuItem>
             <Link href="/api/auth/signin">Sign In</Link>
-            {/* <Link href="/login">Sign In</Link> */}
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>

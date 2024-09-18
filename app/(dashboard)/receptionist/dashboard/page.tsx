@@ -1,8 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'components/ui/tabs';
-import { File, PlusCircle } from 'lucide-react';
 import { Button } from 'components/ui/button';
-import { DoctorsTable } from './Doctor-table';
-import { dummyDoctors } from 'components/hospital/dummy';
+// import { DoctorsTable } from './Doctor-table';
+// import { dummyDoctors } from 'components/hospital/dummy';
 
 export default function DoctorsPage() {
   return (
@@ -24,7 +23,6 @@ export default function DoctorsPage() {
             </span>
           </Button> */}
           <Button size="sm" className="h-8 gap-1">
-            <PlusCircle className="h-3.5 w-3.5" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
               Add Doctor
             </span>
@@ -32,11 +30,11 @@ export default function DoctorsPage() {
         </div>
       </div>
       <TabsContent value="all">
-        <DoctorsTable
+        {/* <DoctorsTable
           doctors={dummyDoctors}
           offset={0}
           totalDoctors={dummyDoctors.length}
-        />
+        /> */}
       </TabsContent>
     </Tabs>
   );

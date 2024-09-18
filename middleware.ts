@@ -29,9 +29,13 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
 
     if (roleRedirectResponse.status === 200) {
       const { location } = await roleRedirectResponse.json();
-      if (location && currentPath !== location) {
+      // Redirect only if the current path is not under the correct role's sub-routes
+      if (location && !currentPath.startsWith(location)) {
         return NextResponse.redirect(new URL(location, req.url));
       }
+      // if (location && currentPath !== location) {
+      //   return NextResponse.redirect(new URL(location, req.url));
+      // }
     }
 
   } catch (error) {

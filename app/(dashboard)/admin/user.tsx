@@ -10,12 +10,13 @@ import {
   DropdownMenuTrigger
 } from 'components/ui/dropdown-menu';
 import Link from 'next/link';
-import { LogoutButton } from 'app/actions/logoutButton';
+import { LogoutButton } from '../../actions/logoutButton';
+
+
 
 
 export async function User() {
-
-  let session = { user: "abc", image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" };
+  let session = {user: "abc", image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"};
   // let session = await auth();
   let user = session?.user;
 
@@ -45,11 +46,11 @@ export async function User() {
         <DropdownMenuSeparator />
         {user ? (
           <DropdownMenuItem>
-            <LogoutButton/>
+            <LogoutButton/>            
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem>
-            <Link href="/signup">Sign In</Link>
+            <Link href="/api/auth/signin">Sign In</Link>
             {/* <Link href="/login">Sign In</Link> */}
           </DropdownMenuItem>
         )}

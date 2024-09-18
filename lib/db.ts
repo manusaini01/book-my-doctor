@@ -74,14 +74,3 @@ export const insertTokenSchema = createInsertSchema(tokens);
 //   await db.delete(tokens).where(eq(tokens.user_id, userId));
 // };
 
-export interface SelectDoctor {
-  id: number;
-  name: string;
-  specialization: string;
-  experience: number;
-  // profilePictureUrl: string;
-  imageUrl: string;
-  availability: string;
-  education: string;
-  // Add other fields as needed
-}

@@ -1,8 +1,13 @@
+export interface Login {
+  email: string;
+  password: string;
+}
+
 // Form submission handler
-export default async function handleFormSubmit(formData: FormData) {
+export default async function handleFormSubmit(formData: Login) {
     // "use server";
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
+    const email = formData.email
+    const password = formData.password
 
     try {
       // Construct the JSON payload
@@ -21,16 +26,23 @@ export default async function handleFormSubmit(formData: FormData) {
       });
   
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Something went wrong');
+        const result = await response.json();
+        console.log(result)
+        return {
+          error: result.message || 'An error occurred',
+          status: response.status,
+          statusText: response.statusText,
+        };
       }
   
       const data = await response.json();
       window.location.href = '/doctor/dashboard';
       console.log('Login response:', data);
+      return data;
       // Handle success (e.g., navigate, store tokens, etc.)
     } catch (error) {
       console.error('Error:', error);
+      return error;
       // Handle error (e.g., display error message)
     }
   }
