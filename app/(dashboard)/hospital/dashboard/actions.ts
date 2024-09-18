@@ -18,7 +18,7 @@ export async function getDoctors(
 }> {
   try {
     // Build the URL with query parameters
-    const url = new URL(`${process.env.BASE_URL}/api/doctors/get_all_doctors`);
+    const url = new URL(`/api/doctors/get_all_doctors`);
     url.searchParams.append('hospital_id', hospitalId);
     url.searchParams.append('search', search);
     url.searchParams.append('offset', offset.toString());
@@ -57,7 +57,7 @@ export async function getDoctors(
 // api.ts
 export async function deleteDoctorById(doctorId: string): Promise<ApiResponse> {
     try {
-      const response = await fetch(`${process.env.BASE_URL}/api/doctors/delete_doctor`, {
+      const response = await fetch(`/api/doctors/delete_doctor`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ export async function fetchHospitalById(): Promise<ApiResponse> {
   const email = cookieStore.get('email')?.value
   const user_id = cookieStore.get('user_id')?.value
   const quary = `email=${email}&user_id=${user_id}`
-    const response = await fetch(`${process.env.BASE_URL}/api/hospitals/get_hospital?${quary}`, {
+    const response = await fetch(`/api/hospitals/get_hospital?${quary}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

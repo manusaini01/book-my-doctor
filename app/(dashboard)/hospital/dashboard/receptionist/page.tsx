@@ -27,7 +27,7 @@ export default function DoctorsPage() {
               Export
             </span>
           </Button> */}
-          <Link href={`/hospital/dashboard/add_doctor_form`}>
+          <Link href={`/hospital/dashboard/doctor_form`}>
           <Button size="sm" className="h-8 gap-1">
             <PlusCircle className="h-3.5 w-3.5" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
