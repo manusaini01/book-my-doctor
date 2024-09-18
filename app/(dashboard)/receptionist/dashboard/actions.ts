@@ -8,7 +8,7 @@ export async function fetchReceptionistById(): Promise<ApiResponse> {
     const email = cookieStore.get('email')?.value
     const user_id = cookieStore.get('user_id')?.value
     const quary = `email=${email}&user_id=${user_id}`
-    const response = await fetch(`/api/receptionist/get_receptionist_by_id?${quary}`, {
+    const response = await fetch(`${process.env.BASE_URL}/api/receptionist/get_receptionist_by_id?${quary}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export async function fetchDoctorsByAssignment(hospital_id: string, receptionist
     // Construct query string with receptionist_id and hospital_id
     const query = `receptionist_id=${receptionist_id}&hospital_id=${hospital_id}`;
 
-    const response = await fetch(`/api/assigning_doctors/get?${query}`, {
+    const response = await fetch(`${process.env.BASE_URL}/api/assigning_doctors/get?${query}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

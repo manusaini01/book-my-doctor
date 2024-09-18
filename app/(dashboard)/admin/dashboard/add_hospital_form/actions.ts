@@ -18,7 +18,7 @@ export async function add_hospital(formData: HospitalFormData) {
   
 
   try {
-    const response = await fetch(`/api/hospitals/add`, {
+    const response = await fetch(`${process.env.BASE_URL}/api/hospitals/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

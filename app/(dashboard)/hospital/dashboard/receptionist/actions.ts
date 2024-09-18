@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 
 
 export async function fetchAllReceptionists(hospitalId: string) {
-    const response = await fetch(`/api/receptionist/get_all_receptionist?hospital_id=${hospitalId}`);
+    const response = await fetch(`${process.env.BASE_URL}/api/receptionist/get_all_receptionist?hospital_id=${hospitalId}`);
     if (response.ok) {
       const data = await response.json();
       return data.receptionists;
@@ -19,7 +19,7 @@ export async function fetchAllReceptionists(hospitalId: string) {
 // api.ts
 export async function deleteReceptionistById(doctorId: string): Promise<ApiResponse> {
     try {
-      const response = await fetch(`/api/doctors/delete_doctor`, {
+      const response = await fetch(`${process.env.BASE_URL}/api/doctors/delete_doctor`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

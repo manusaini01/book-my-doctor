@@ -20,7 +20,7 @@ export async function add_receptionist(formData: ReceptionistFormData) {
     if (!formData.hospital_name) {
       throw new Error('missing hospital_name');
     }
-    const response = await fetch(`/api/receptionist/add`, {
+    const response = await fetch(`${process.env.BASE_URL}/api/receptionist/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

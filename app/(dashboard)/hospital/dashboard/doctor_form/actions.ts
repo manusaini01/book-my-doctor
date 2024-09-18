@@ -19,7 +19,7 @@ export async function add_doctor(formData: DoctorFormData) {
     if (!formData.hospital_id) {
       throw new Error('Invalid or missing hospital_id');
     }
-    const response = await fetch(`/api/doctors/add`, {
+    const response = await fetch(`${process.env.BASE_URL}/api/doctors/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

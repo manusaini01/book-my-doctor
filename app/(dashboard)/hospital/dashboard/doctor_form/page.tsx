@@ -125,7 +125,7 @@ const AddDoctorForm = () => {
     handleFetchAndAddDoctor(formData);
   };
 
-
+  // ${process.env.BASE_URL}
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-3xl bg-white shadow-lg">

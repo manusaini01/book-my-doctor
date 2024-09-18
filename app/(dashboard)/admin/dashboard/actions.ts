@@ -14,7 +14,7 @@ export async function getHospitals(
 }> {
   try {
     // Build the URL with query parameters
-    const url = new URL(`/api/hospitals/get_all_hospitals`);
+    const url = new URL(`${process.env.BASE_URL}/api/hospitals/get_all_hospitals`);
     // url.searchParams.append('search', search);
     // url.searchParams.append('offset', offset.toString());
 
@@ -60,7 +60,7 @@ export async function getHospitals(
 // api.ts
 export async function deleteHospitalById(user_id: string): Promise<ApiResponse> {
   try {
-    const response = await fetch(`/api/hospitals/deleteHospital`, {
+    const response = await fetch(`${process.env.BASE_URL}/api/hospitals/deleteHospital`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
