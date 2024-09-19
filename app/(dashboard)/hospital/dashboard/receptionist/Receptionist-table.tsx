@@ -81,7 +81,7 @@ export function ReceptionistsTable() {
   useEffect(() => {
     async function fetchAllReceptionists() {
       if (hospitalId) {  // Check if hospitalId is set
-        const response = await fetch(`${process.env.BASE_URL}/api/receptionist/get_all_receptionist?hospital_id=${hospitalId}&offset=${offset}&limit=${receptionistsPerPage}`);
+        const response = await fetch(`/api/receptionist/get_all_receptionist?hospital_id=${hospitalId}&offset=${offset}&limit=${receptionistsPerPage}`);
         if (response.ok) {
           const data = await response.json();
           setReceptionists(data.receptionists);
